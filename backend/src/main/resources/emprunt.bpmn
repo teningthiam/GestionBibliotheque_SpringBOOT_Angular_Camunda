@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  xmlns:zeebe="http://camunda.org/schema/zeebe/1.0"
+  id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <bpmn:process id="Process_Emprunt" name="Emprunt" isExecutable="true">
+    <bpmn:startEvent id="Start_Emprunt" name="Emprunt demandé">
+      <bpmn:outgoing>Flow_1</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:serviceTask id="Task_Notifier" name="Notifier le client">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="notifier-emprunt" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_2</bpmn:outgoing>
+    </bpmn:serviceTask>
+
+    <bpmn:userTask id="Task_Retour" name="Retour">
+      <bpmn:extensionElements>
+        <zeebe:userTask />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_3</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:endEvent id="End_Emprunt" name="Livre retourné">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="Start_Emprunt" targetRef="Task_Notifier" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="Task_Notifier" targetRef="Task_Retour" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="Task_Retour" targetRef="End_Emprunt" />
+  </bpmn:process>
+
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_Emprunt">
+      <bpmndi:BPMNShape id="S_Start" bpmnElement="Start_Emprunt">
+        <dc:Bounds x="152" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="S_Notifier" bpmnElement="Task_Notifier">
+        <dc:Bounds x="250" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="S_Retour" bpmnElement="Task_Retour">
+        <dc:Bounds x="410" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="S_End" bpmnElement="End_Emprunt">
+        <dc:Bounds x="572" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="E_1" bpmnElement="Flow_1">
+        <di:waypoint x="188" y="120" /><di:waypoint x="250" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="E_2" bpmnElement="Flow_2">
+        <di:waypoint x="350" y="120" /><di:waypoint x="410" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="E_3" bpmnElement="Flow_3">
+        <di:waypoint x="510" y="120" /><di:waypoint x="572" y="120" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

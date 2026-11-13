@@ -1,0 +1,39 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: gestion-bibliotheque-backend
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/gestion_bibliotheque?createDatabaseIfNotExist=true
+    username: tening
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: teningthiam674@gmail.com
+    password: kznhgiexkcvrunlp
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+camunda:
+  client:
+    mode: self-managed
+    grpc-address: http://localhost:26500
+    rest-address: http://localhost:8080
